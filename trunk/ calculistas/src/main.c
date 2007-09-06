@@ -21,6 +21,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
+
 #include <stdio.h>
 #include <math.h>
 #include <allegro.h>
@@ -154,7 +155,7 @@ int main(int argc, char **argv){
 
 	ListaEjercicios ejercicios;
 	FONT *f80,*f150;
-	BITMAP  *img_carga,
+	BITMAP  //*img_carga,
             *img_fondo,
             *img_ejercicio,
             *img_ejercicios,
@@ -180,9 +181,9 @@ int main(int argc, char **argv){
 		exit(1);
 	}
 
-	img_carga = load_tga("img_carga.tga",pal);
+	//img_carga = load_tga("img_carga.tga",pal);
 
-	mostrar_imagen(img_carga);
+	//mostrar_imagen(img_carga);
 
 	img_fondo = load_tga("img_fondo.tga",pal);
 	img_ejercicio = load_tga("img_ejercicio.tga",pal);
@@ -192,10 +193,11 @@ int main(int argc, char **argv){
 
 
     //printf("Leyendo ejercicios...\n");
-	if (argc <1 ){
-		exit(1);
-	} else {
+
+	if (argc>1){
 		leer_ejercicios(argv[1],&ejercicios);
+	} else {
+		exit(1);
 	}
 
 	f80= load_font("t80_fnt.pcx", NULL, NULL);
@@ -218,8 +220,8 @@ int main(int argc, char **argv){
 		} while (ejercicios.ejercicios[eje].mostrable==0);
 		ejercicios.ejercicios[eje].mostrable=0;
 
-		textprintf_centre_ex(screen, f80, 320, 20, makecol(0,0,0),-1,"Ejercicio:");
-		textprintf_centre_ex(screen, f150, 320, 200, makecol(0,0,0),-1,"%i", eje+1);
+		textprintf_centre_ex(screen, f80, 500, 20, makecol(0,0,0),-1,"Ejercicio:");
+		textprintf_centre_ex(screen, f150, 450, 200, makecol(0,0,0),-1,"%i", eje+1);
 
 		//Esperar tecla (se puede elegir una tecla especifica para no mostrar
 		// ejercicio en particular)
@@ -228,32 +230,32 @@ int main(int argc, char **argv){
 		// Iniciar el ciclo donde se muestran los diferentes segmentos del
 		// ejercicio
 			int i;
-			char soper[7][2]={"+\0","-\0","*\0","/\0","r\0","p\0","=\0"};
+			char soper[7][3]={"+\0","-\0","*\0","/\0","r\0","p\0","=\0"};
 			char ejercicio[200]="\0";
 
 			for (i=0;i<ejercicios.ejercicios[eje].nsegmentos;i++){
 				mostrar_imagen(img_ejercicios);
 				if (i==0){
 				    sprintf(ejercicio,"%s %i",ejercicio,ejercicios.ejercicios[eje].valores[i]);
-					textprintf_centre_ex(screen, f150, 300, 150, makecol(0,0,255),-1,"%i",ejercicios.ejercicios[eje].valores[i]);
+					textprintf_centre_ex(screen, f150, 440, 240, makecol(0,0,255),-1,"%i",ejercicios.ejercicios[eje].valores[i]);
 				} else {
                     //Otra operacion
 					sprintf(ejercicio,"%s %s %i",ejercicio,soper[ejercicios.ejercicios[eje].operaciones[i-1]],ejercicios.ejercicios[eje].valores[i]);
-   					textprintf_centre_ex(screen, f150, 300, 150, makecol(0,0,255),-1,"%s %i",soper[ejercicios.ejercicios[eje].operaciones[i-1]],ejercicios.ejercicios[eje].valores[i]);
+   					textprintf_centre_ex(screen, f150, 440, 240, makecol(0,0,255),-1,"%s %i",soper[ejercicios.ejercicios[eje].operaciones[i-1]],ejercicios.ejercicios[eje].valores[i]);
                 }
                 textprintf_centre_ex(screen, font, 320, 20, makecol(0,0,255),-1,"%s",ejercicio);
                 readkey();
 			}
 			mostrar_imagen(img_espresultado);
 			textprintf_centre_ex(screen, font, 320, 20, makecol(0,255,0),-1,"%s =",ejercicio);
-			textprintf_centre_ex(screen, f150, 300, 220, makecol(255,0,0),-1,"=");
+			//textprintf_centre_ex(screen, f150, 300, 220, makecol(255,0,0),-1,"=");
 		//Esperar tecla donde se va a mostrar el resultado (se puede definir
 		// una tecla para no mostrar el resultado)
 		    readkey();
 		//Mostrar resultado
 			mostrar_imagen(img_resultado);
 			textprintf_centre_ex(screen, font, 320, 20, makecol(0,0,0),makecol(255,255,255),"%s = %i",ejercicio,ejercicios.ejercicios[eje].resultado);
-			textprintf_centre_ex(screen, f150, 400, 120, makecol(128,64,128),-1,"%i",ejercicios.ejercicios[eje].resultado);
+			textprintf_centre_ex(screen, f150, 140, 200, makecol(128,64,128),-1,"%i",ejercicios.ejercicios[eje].resultado);
 		    readkey();
 			mostrar_imagen(img_fondo);
 		}
@@ -262,7 +264,7 @@ int main(int argc, char **argv){
 		//Limpiar pantalla y dejar el fondo predeterminado
 	};
 
-    destroy_bitmap(img_carga);
+    //destroy_bitmap(img_carga);
     destroy_bitmap(img_fondo);
     destroy_bitmap(img_ejercicio);
     destroy_bitmap(img_ejercicios);
