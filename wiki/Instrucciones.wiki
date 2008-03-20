@@ -1,0 +1,16 @@
+#labels Phase-Deploy
+= INSTRUCCIONES PROGRAMA CALCULISTAS =
+
+Para ejecutar el programa se tiene 3 archivos, cada uno inicia el programa de calculistas con el conjunto de ejercicios de la dificultad escogida:
+
+  * Calculistas-dificil.bat
+  * Calculistas-medio.bat
+  * Calculistas-facil.bat
+
+El programa inicialmente pide una semilla, esto es un dato de entrada para hacer la selección de ejercicios al azar, en este caso se debe oprimir cualquier tecla una vez.
+
+Luego de esto el programa espera hasta presionar una tecla para comenzar a iniciar los ejercicios, en este momento y solo en esta imagen (pirámides), se puede oprimir la tecla ESC para salir de la aplicación sin generar problemas
+
+Después de este punto, se ha seleccionado un ejercicio, si por alguna razón este ejercicio no se desea mostrar se puede saltar oprimiendo la tecla ESC, en caso contrario oprimir cualquier otra tecla entra a mostrar el ejercicio.
+
+Después de este punto, el programa espera que se presionen las teclas para seguir continuando la muestra de los ejercicios, hay que tener en cuenta, que después de este ciclo de pantallazos, el programa vuelve a la imagen de las pirámides, donde es el único momento donde se puede salir del programa, como se dijo antes con la tecla ESC.
