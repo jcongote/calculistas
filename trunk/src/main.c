@@ -22,6 +22,13 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+/***************************************************************************
+ *
+ *  Modified: March 2008 by John Edgar Congote Calle
+ *  The root operation was change to work better with integers.
+ * 
+ ****************************************************************************/
+
 #include <stdio.h>
 #include <math.h>
 #include <allegro.h>
@@ -51,11 +58,6 @@ typedef struct _ListaEjercicios{
 	Ejercicio *ejercicios;
 } ListaEjercicios;
 
-int oper_raiz(int base, int r){
-    //printf("Raiz: base %i, raiz: %i, resultado: %e-%i\n",base,r,powf(base,1.0/r),(int)powf(base,1.0/r));
-	return powf(base,1.0/r);
-}
-
 int oper_potencia(int base, int p){
     int i;
     int r=1;
@@ -64,7 +66,23 @@ int oper_potencia(int base, int p){
 	return r;
 }
 
-inline void leer_ejercicios(const char *narc, ListaEjercicios *j){
+int oper_raiz(int base, int r){
+    //printf("Raiz: base %i, raiz: %i, resultado: %e-%i\n",base,r,powf(base,1.0/r),(int)powf(base,1.0/r));
+	//return powf(base,1.0/r);
+
+	if (base>0){
+        int res;
+        for (res=1;res<base;res++){
+            if (oper_potencia(res,r)==base)
+            {
+                return res;
+            }
+        }
+	}
+    return 0;
+}
+
+void leer_ejercicios(const char *narc, ListaEjercicios *j){
 	FILE *arc;
 	int i;
 
@@ -136,7 +154,7 @@ inline void leer_ejercicios(const char *narc, ListaEjercicios *j){
 	fclose(arc);
 }
 
-inline void mostrar_imagen(BITMAP *img){
+void mostrar_imagen(BITMAP *img){
 	if (img!=NULL){
 		acquire_screen();
 		blit(img,screen,0,0,0,0,img->w, img->h);
@@ -144,7 +162,7 @@ inline void mostrar_imagen(BITMAP *img){
 	}
 }
 
-inline void inicializacion_allegro(){
+void inicializacion_allegro(){
 	/*
 	Inicializacion de la libreria Alegro
 	*/
@@ -211,10 +229,12 @@ int main(int argc, char **argv){
 
     srand(readkey());
 	while ( ( readkey() >> 8 ) != KEY_ESC){
-	    mostrar_imagen(img_ejercicio);
+		int eje=0;
+		
+		mostrar_imagen(img_ejercicio);
 		//clear_bitmap(screen);
 		//Seleccionar ejercicio
-		int eje;
+
 		do{
 			eje = rand() %  ejercicios.n;
 		} while (ejercicios.ejercicios[eje].mostrable==0);
@@ -255,7 +275,7 @@ int main(int argc, char **argv){
 		//Mostrar resultado
 			mostrar_imagen(img_resultado);
 			textprintf_centre_ex(screen, font, 320, 20, makecol(0,0,0),makecol(255,255,255),"%s = %i",ejercicio,ejercicios.ejercicios[eje].resultado);
-			textprintf_centre_ex(screen, f150, 140, 200, makecol(128,64,128),-1,"%i",ejercicios.ejercicios[eje].resultado);
+			textprintf_centre_ex(screen, f150, 200, 200, makecol(128,64,128),-1,"%i",ejercicios.ejercicios[eje].resultado);
 		    readkey();
 			mostrar_imagen(img_fondo);
 		}
